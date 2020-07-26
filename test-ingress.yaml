@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  labels:
+    app: test-ingress
+spec:
+  rules:
+  - host: test.cablespaghetti.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: test-ingress
+          servicePort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-ingress
+  labels:
+    app: test-ingress
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: test-ingress
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-ingress
+  labels:
+    app: test-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-ingress
+  template:
+    metadata:
+      labels:
+        app: test-ingress
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+          name: http
