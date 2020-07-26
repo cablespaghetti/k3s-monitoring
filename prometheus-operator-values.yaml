@@ -8,10 +8,12 @@ alertmanager:
   config:
     global:
       smtp_from: you@gmail.com
-      smtp_smarthost: smtp.gmail.com:587
-      smtp_auth_username: you@gmail.com
-      smtp_auth_password: yourapppassword # https://support.google.com/mail/answer/185833?hl=en-GB
-      smtp_auth_identity: you@gmail.com
+      smtp_smarthost: mailhog:1025
+      smtp_require_tls: false
+    #  smtp_smarthost: smtp.gmail.com:587
+    #  smtp_auth_username: you@gmail.com
+    #  smtp_auth_password: yourapppassword # https://support.google.com/mail/answer/185833?hl=en-GB
+    #  smtp_auth_identity: you@gmail.com
     route:
       group_by: ['job']
       group_wait: 30s
@@ -102,7 +104,9 @@ prometheus:
 #    sessionAffinity: "ClientIP"
 #
 
-#grafana:
+grafana:
+  plugins:
+    - grafana-piechart-panel
 #  resources:
 #    limits:
 #      cpu: 500m
