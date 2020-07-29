@@ -91,4 +91,4 @@ kubectl apply -f blackbox-exporter-dashboard.yaml
 
 But what if my cluster goes down and my monitoring goes with it? One of the alerts we have sent to the `null` receiver in the Prometheus Operator values is `Watchdog`. This is a Prometheus Rule which always fires. If you send this to somewhere outside of your cluster, you can be alerted if this "Dead Man's Switch" stops firing.
 
-At Pulselive we developed a simple solution using AWS Lambda for this (https://github.com/PulseInnovations/prometheus-deadmansswitch)
+At Pulselive we developed a simple solution using AWS Lambda for this https://github.com/PulseInnovations/prometheus-deadmansswitch
