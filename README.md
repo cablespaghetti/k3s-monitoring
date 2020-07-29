@@ -50,10 +50,27 @@ kubectl port-forward svc/prometheus-prometheus-oper-alertmanager 9093
 
 This will make Grafana accessible on http://localhost:8080, Prometheus on http://localhost:9090 and Alert Manager on http://localhost:9093
 
+You'll see that Grafana is already configured with lots of useful dashboards and Prometheus is configured with Rules to send alerts for pretty much everything you need to monitor in a production cluster.
 
+## The power of Prometheus Operator
 
+Because k3s uses Traefik for ingress, we want to add monitoring to that. Prometheus "scrapes" services to get metrics rather than having metrics pushed to it like many other systems. Many "cloud native" applications will expose a port for Prometheus metrics out of the box and Traefik is no exception. For any apps you build you will need a metrics endpoint and a Kubernetes Service with that port exposed.
+
+All we need to do to get Prometheus scraping Traefik is add a Prometheus Operator `ServiceMonitor` resource which tells it the details of the existing service to scrape. 
+
+```
 kubectl apply -f traefik-servicemonitor.yaml
+```
+
+You can also do something similar with Grafana dashboards. Just deploy them in a `ConfigMap` like this:
+
+```
 kubectl apply -f traefik-dashboard.yaml
+```
+
+For this reason we haven't configured Grafana with any persistent storage so any dashboards imported or created and not put in a ConfigMap will disappear if the Pod restarts.
+
+## Blackbox Exporter
 
 helm upgrade --install blackbox-exporter stable/prometheus-blackbox-exporter --values blackbox-exporter-values.yaml
 kubectl apply -f blackbox-exporter-dashboard.yaml
