@@ -70,6 +70,8 @@ You can also do something similar with Grafana dashboards. Just deploy them in a
 kubectl apply -f traefik-dashboard.yaml
 ```
 
+This dashboard JSON is copied from [Grafana's amazing dashboards site](https://grafana.com/grafana/dashboards/4475).
+
 For this reason we haven't configured Grafana with any persistent storage so any dashboards imported or created and not put in a ConfigMap will disappear if the Pod restarts.
 
 We can now create alerts with Prometheus Rules using the Prometheus Operator `PrometheusRule`:
