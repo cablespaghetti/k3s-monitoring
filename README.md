@@ -70,7 +70,25 @@ kubectl apply -f traefik-dashboard.yaml
 
 For this reason we haven't configured Grafana with any persistent storage so any dashboards imported or created and not put in a ConfigMap will disappear if the Pod restarts.
 
+We can now create alerts with Prometheus Rules using the Prometheus Operator `PrometheusRule`:
+
+```
+kubectl apply -f traefik-prometheusrule.yaml
+```
+
 ## Blackbox Exporter
 
+I've also configured Prometheus Blackbox exporter on my cluster which polls HTTP endpoints. These can be anywhere on the Internet. In this case I'm just monitoring my example website to check everything is working as expected. I've also deployed another dashboard to Grafana for it.
+
+```
 helm upgrade --install blackbox-exporter stable/prometheus-blackbox-exporter --values blackbox-exporter-values.yaml
 kubectl apply -f blackbox-exporter-dashboard.yaml
+```
+
+## Monitoring the monitoring
+
+![Xzibit Meme](./xzibit.jpg)
+
+But what if my cluster goes down and my monitoring goes with it? One of the alerts we have sent to the `null` receiver in the Prometheus Operator values is `Watchdog`. This is a Prometheus Rule which always fires. If you send this to somewhere outside of your cluster, you can be alerted if this "Dead Man's Switch" stops firing.
+
+At Pulselive we developed a simple solution using AWS Lambda for this (https://github.com/PulseInnovations/prometheus-deadmansswitch)
