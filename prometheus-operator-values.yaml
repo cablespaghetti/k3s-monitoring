@@ -42,7 +42,7 @@ alertmanager:
     - name: email
       email_configs:
       - send_resolved: true
-        to: weston.sam@gmail.com
+        to: youremail@gmail.com
 
     # Inhibition rules allow to mute a set of alerts given that another alert is firing.
     # We use this to mute any warning-level notifications if the same alert is already critical.
