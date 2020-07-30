@@ -1,6 +1,6 @@
 ### Monitoring K3S with Prometheus Operator
 
-This repository contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. I'll link the video when it's available.
+This repository contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. [Here is the video.](https://youtu.be/thHzf0fmrFQ)
 
 [Sign up for their free KUBE100 beta here.](https://www.civo.com/?ref=63c625)
 
@@ -9,7 +9,7 @@ Prometheus can be complicated to get started with, which is why many people pick
 The great people over at CoreOS developed a Prometheus Operator for Kubernetes which allows you to define your Prometheus configuration in YAML and deploy it alongside your application manifests. This makes a lot of sense if you're deploying a lot of applications, maybe across many teams. They can all just define their own monitoring alerts.
 
 You will need:
-- A k3s cluster (on an x86 architecture for now) like Civo Cloud
+- A k3s cluster (on an x86 architecture for now) like Civo Cloud - Ignore what I said in the video about using the "development" version this is no longer needed
 - kubectl installed on your machine and configured for that cluster
 - [Helm 3](https://helm.sh) installed on your machine
 
