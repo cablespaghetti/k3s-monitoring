@@ -9,7 +9,7 @@ Prometheus can be complicated to get started with, which is why many people pick
 The great people over at CoreOS developed a Prometheus Operator for Kubernetes which allows you to define your Prometheus configuration in YAML and deploy it alongside your application manifests. This makes a lot of sense if you're deploying a lot of applications, maybe across many teams. They can all just define their own monitoring alerts.
 
 You will need:
-- A k3s cluster (on an x86 architecture for now) like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video)
+- A k3s cluster (on an x86 architecture for now - see (#23405)[https://github.com/helm/charts/issues/23405]) like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video)
 - kubectl installed on your machine and configured for that cluster
 - [Helm 3](https://helm.sh) installed on your machine
 
