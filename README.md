@@ -2,7 +2,7 @@
 
 This guide contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. [Here is the video.](https://youtu.be/thHzf0fmrFQ) However the video is from July 2020 and this guide has since been updated for the latest [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm Chart, although 99% of it still applies.
 
-All the YAML files referenced can be found [in this GitHub repo](https://github.com/cablespaghetti/k3s-monitoring).
+[Sign up for their free KUBE100 beta here.](https://www.civo.com/?ref=63c625)
 
 Prometheus can be complicated to get started with, which is why many people pick hosted monitoring solutions like Datadog. However it doesn't have to be and if you're monitoring Kubernetes, Prometheus is in my opinion the best option.
 
@@ -28,7 +28,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 10.3.3 --values kube-prometheus-stack-values.yaml
 ```
 
-*I've picked a specific version of the Helm Chart here which I know works with the config is this repository. Feel free to remove the `--version` parameter to get the latest version.*
+*I've picked a specific version of the Helm Chart here which I know works with my config. Feel free to remove the `--version` parameter to get the latest version.*
 
 This deploys Prometheus, Alert Manager and Grafana with a few options disabled which don't work for k3s. You'll get a set of default Prometheus Rules (Alerts) configured which will alert you about most of things you need worry about when running a Kubernetes cluster.
 
@@ -95,7 +95,7 @@ helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbo
 kubectl apply -f blackbox-exporter-dashboard.yaml
 ```
 
-*I've picked a specific version of the Helm Chart here which I know works with the config is this repository. Feel free to remove the `--version` parameter to get the latest version.*
+*I've picked a specific version of the Helm Chart here which I know works with my config. Feel free to remove the `--version` parameter to get the latest version.*
 
 ## Monitoring the monitoring
 
