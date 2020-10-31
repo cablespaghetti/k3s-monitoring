@@ -22,7 +22,7 @@ serviceMonitor:
 prometheusRule:
   enabled: true
   additionalLabels:
-    app: prometheus-operator
+    app: kube-prometheus-stack
     release: prometheus
   rules:
     - alert: UrlDown
