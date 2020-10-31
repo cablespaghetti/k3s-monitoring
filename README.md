@@ -1,6 +1,6 @@
 ### Monitoring K3S with Prometheus Operator
 
-This repository contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. [Here is the video.](https://youtu.be/thHzf0fmrFQ)
+This guide contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. [Here is the video.](https://youtu.be/thHzf0fmrFQ) However the video is from July 2020 and this guide has since been updated for the latest [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm Chart, although 99% of it still applies.
 
 [Sign up for their free KUBE100 beta here.](https://www.civo.com/?ref=63c625)
 
@@ -9,7 +9,7 @@ Prometheus can be complicated to get started with, which is why many people pick
 The great people over at CoreOS developed a Prometheus Operator for Kubernetes which allows you to define your Prometheus configuration in YAML and deploy it alongside your application manifests. This makes a lot of sense if you're deploying a lot of applications, maybe across many teams. They can all just define their own monitoring alerts.
 
 You will need:
-- A k3s cluster (on an x86 architecture for now - see [#23405](https://github.com/helm/charts/issues/23405)) like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video)
+- A k3s cluster (on an x86 architecture for the moment) like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video)
 - kubectl installed on your machine and configured for that cluster
 - [Helm 3](https://helm.sh) installed on your machine
 
@@ -22,11 +22,13 @@ helm upgrade --install mailhog codecentric/mailhog
 
 ## Install Prometheus Operator
 
-Now installing [Prometheus Operator from the Helm chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) is as simple as running:
+Now installing [Prometheus Operator from the kube-prometheus-stack Helm chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) is as simple as running:
 ```
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-helm upgrade --install prometheus stable/prometheus-operator --values prometheus-operator-values.yaml
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 10.3.3 --values kube-prometheus-stack-values.yaml
 ```
+
+*I've picked a specific version of the Helm Chart here which I know works with my config. Feel free to remove the `--version` parameter to get the latest version.*
 
 This deploys Prometheus, Alert Manager and Grafana with a few options disabled which don't work for k3s. You'll get a set of default Prometheus Rules (Alerts) configured which will alert you about most of things you need worry about when running a Kubernetes cluster.
 
@@ -46,8 +48,8 @@ This means you need to use `kubectl port-forward` to access the services for now
 
 ```
 kubectl port-forward svc/prometheus-grafana 8080:80
-kubectl port-forward svc/prometheus-prometheus-oper-prometheus 9090
-kubectl port-forward svc/prometheus-prometheus-oper-alertmanager 9093
+kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090
+kubectl port-forward svc/prometheus-kube-prometheus-alertmanager 9093
 ```
 
 This will make Grafana accessible on http://localhost:8080, Prometheus on http://localhost:9090 and Alert Manager on http://localhost:9093
@@ -63,6 +65,8 @@ All we need to do to get Prometheus scraping Traefik is add a Prometheus Operato
 ```
 kubectl apply -f traefik-servicemonitor.yaml
 ```
+
+You can verify that Prometheus is now scraping Traefik for metrics at [http://localhost:9090/targets](http://localhost:9090/targets).
 
 You can also do something similar with Grafana dashboards. Just deploy them in a `ConfigMap` like this:
 
@@ -80,19 +84,24 @@ We can now create alerts with Prometheus Rules using the Prometheus Operator `Pr
 kubectl apply -f traefik-prometheusrule.yaml
 ```
 
+You can verify that Prometheus has got your rule configured at [http://localhost:9090/rules](http://localhost:9090/rules).
+
 ## Blackbox Exporter
 
 I've also configured [Prometheus Blackbox exporter](https://github.com/prometheus/blackbox_exporter) on my cluster which polls HTTP endpoints. These can be anywhere on the Internet. In this case I'm just monitoring my example website to check everything is working as expected. I've also deployed another dashboard to Grafana for it.
 
 ```
-helm upgrade --install blackbox-exporter stable/prometheus-blackbox-exporter --values blackbox-exporter-values.yaml
+helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --version 4.10.0 --values blackbox-exporter-values.yaml
 kubectl apply -f blackbox-exporter-dashboard.yaml
 ```
 
+*I've picked a specific version of the Helm Chart here which I know works with my config. Feel free to remove the `--version` parameter to get the latest version.*
+
 ## Monitoring the monitoring
 
-![Xzibit Meme](./xzibit.jpg)
+![Xzibit Meme](https://github.com/cablespaghetti/k3s-monitoring/raw/master/xzibit.jpg)
 
 But what if my cluster goes down and my monitoring goes with it? One of the alerts we have sent to the `null` receiver in the Prometheus Operator values is `Watchdog`. This is a Prometheus Rule which always fires. If you send this to somewhere outside of your cluster, you can be alerted if this "Dead Man's Switch" stops firing.
 
 At Pulselive we developed a simple solution using AWS Lambda for this https://github.com/PulseInnovations/prometheus-deadmansswitch
+

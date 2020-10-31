@@ -76,9 +76,6 @@ alertmanager:
 
 prometheus:
   prometheusSpec:
-    image:
-      tag: v2.20.0
-    walCompression: true
     retention: 3d
 
 #    replicas: 2

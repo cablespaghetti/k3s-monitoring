@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    app: prometheus-operator
+    app: kube-prometheus-stack
     release: prometheus
   name: traefik 
 spec:
