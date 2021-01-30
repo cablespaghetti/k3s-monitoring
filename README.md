@@ -9,7 +9,7 @@ Prometheus can be complicated to get started with, which is why many people pick
 The great people over at CoreOS developed a Prometheus Operator for Kubernetes which allows you to define your Prometheus configuration in YAML and deploy it alongside your application manifests. This makes a lot of sense if you're deploying a lot of applications, maybe across many teams. They can all just define their own monitoring alerts.
 
 You will need:
-- A k3s cluster (on an x86 architecture for the moment) like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video)
+- A k3s cluster like Civo Cloud (the "development" version is no longer needed, ignore what I say in the video) or maybe one installed on a Raspberry Pi with [k3sup](https://github.com/alexellis/k3sup)
 - kubectl installed on your machine and configured for that cluster
 - [Helm 3](https://helm.sh) installed on your machine
 
@@ -25,7 +25,7 @@ helm upgrade --install mailhog codecentric/mailhog
 Now installing [Prometheus Operator from the kube-prometheus-stack Helm chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) is as simple as running:
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 10.3.3 --values kube-prometheus-stack-values.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 13.4.1 --values kube-prometheus-stack-values.yaml
 ```
 
 *I've picked a specific version of the Helm Chart here which I know works with my config. Feel free to remove the `--version` parameter to get the latest version.*

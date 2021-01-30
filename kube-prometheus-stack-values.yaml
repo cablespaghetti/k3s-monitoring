@@ -1,9 +1,13 @@
+# Disable etcd monitoring. See https://github.com/cablespaghetti/k3s-monitoring/issues/4
 kubeEtcd:
   enabled: false
+
+# Disable kube-controller-manager and kube-scheduler monitoring. See https://github.com/cablespaghetti/k3s-monitoring/issues/2
 kubeControllerManager:
   enabled: false
 kubeScheduler:
   enabled: false
+
 alertmanager:
   config:
     global:
@@ -140,8 +144,8 @@ grafana:
 #      cpu: 5m
 #      memory: 16Mi
 #  priorityClassName: high-priority
-#
-#kube-state-metrics:
+
+kube-state-metrics:
 #  resources:
 #    limits:
 #      cpu: 1
@@ -149,4 +153,10 @@ grafana:
 #    requests:
 #      cpu: 5m
 #      memory: 128Mi
-#
+#  priorityClassName: high-priority
+
+# Use an unofficial multi-arch image until kube-state-metrics v2 is stable
+  image:
+    repository: eddiezane/kube-state-metrics
+    tag: v1.9.7
+
