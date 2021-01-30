@@ -1,8 +1,6 @@
 ### Monitoring K3S with Prometheus Operator
 
-This guide contains the resources for my talk on this topic given at a Civo Cloud Community Meetup. [Here is the video.](https://youtu.be/thHzf0fmrFQ) However the video is from July 2020 and this guide has since been updated for the latest [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm Chart, although 99% of it still applies.
-
-[Sign up for their free KUBE100 beta here.](https://www.civo.com/?ref=63c625)
+I originally put this guide together for a talk at a Civo Cloud Community Meetup in July 2020; [here is the video](https://youtu.be/thHzf0fmrFQ). This guide has since been updated to reflect changes in k3s and [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) but not a great deal has changed since the video was recorded. [Sign up for Civo's free KUBE100 beta here if you want a cluster to try out this guide on.](https://www.civo.com/?ref=63c625)
 
 Prometheus can be complicated to get started with, which is why many people pick hosted monitoring solutions like Datadog. However it doesn't have to be and if you're monitoring Kubernetes, Prometheus is in my opinion the best option.
 
