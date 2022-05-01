@@ -2,6 +2,8 @@
 
 I originally put this guide together for a talk at a Civo Cloud Community Meetup in July 2020; [here is the video](https://youtu.be/thHzf0fmrFQ). This guide has since been updated to reflect changes in k3s and [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) but not a great deal has changed since the video was recorded. [Sign up for Civo's free KUBE100 beta here if you want a cluster to try out this guide on.](https://www.civo.com/?ref=63c625)
 
+*I seem incapable of keeping this up to date. If anyone has a fork they are maintaining please send me a message and I'll link to it. However I have archived this repo.*
+
 Prometheus can be complicated to get started with, which is why many people pick hosted monitoring solutions like Datadog. However it doesn't have to be and if you're monitoring Kubernetes, Prometheus is in my opinion the best option.
 
 The great people over at CoreOS developed a Prometheus Operator for Kubernetes which allows you to define your Prometheus configuration in YAML and deploy it alongside your application manifests. This makes a lot of sense if you're deploying a lot of applications, maybe across many teams. They can all just define their own monitoring alerts.
